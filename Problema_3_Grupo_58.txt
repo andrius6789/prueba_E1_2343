@@ -1,0 +1,36 @@
+DATA:
+  var n 
+CODE:
+  MOV A, var 		//guarda en A el valor de var (donde n es el número 			//que quiero saber si es primo)
+  CMP A, 1 		//verifica si el n es 1
+  JEQ no_es_primo  	//si es 1 va al no_es_primo
+  CMP A, 2 		//compara el número con 2 (primer número primo)
+  JEQ es_primo 		//si es igual a 2 entonces salta altiro a es_primo
+  MOV B, 2 		//si no es igual, entonces aquí guarda en B el valor 			//2 (que sería el divisor siguiente después del 1)
+
+func1:
+  MOV C, A 		//C guarda una copia de A
+  MOV D,B  		//D guarda el divisor actual
+
+func2:
+  SUB C, D 		//C = C-D
+  CMP C, D
+  JGE func2 		//si C>=D sigo restando (tengo que ver si C es 			divisible por D)
+  CMP C, 0 		//si la resta da 0, entonces el número es divisible 			por B
+  JEQ no_es_primo 	//(entonces no es primo)
+  
+  INC B 		//B+=1 para verificar otros posibles divisores
+  CMP B, A 
+  JLT func1 		//si B<A entonces sigo incrementando B hasta llegar 			//a un valor superior o igual a A (A solo tiene que 			//ser divisible por 1 y por sí mismo)
+  JMP es_primo 		//si llego aquí es porque no encontré divisores
+
+es_primo:
+  MOV E, 1 		//si es primo, entonces E=1
+  JMP end
+
+no_es_primo:
+  MOV E, 0 		//si no es primo, entonces E=0
+  JMP end
+  
+end:
+
